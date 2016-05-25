@@ -33,7 +33,7 @@ class NeuralNetwork
 {
 	private:
 
-	btScalar inputToOutput[ANN_DIRECT_INPUT_NODES][ANN_DIRECT_OUTPUT_NODES];
+	ANNNodeStateType inputToOutput[ANN_DIRECT_INPUT_NODES][ANN_DIRECT_OUTPUT_NODES];
 
 	public:
 

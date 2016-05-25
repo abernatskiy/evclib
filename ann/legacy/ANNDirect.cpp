@@ -5,6 +5,7 @@
 #include <string.h>
 
 #include "ANNDirect.h"
+#include "../../misc.h"
 
 std::string str(const Percept& perc)
 {
