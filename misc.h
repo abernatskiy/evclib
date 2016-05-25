@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <cmath>
 
 #define WIDTH_OF_FILE_NAME 300
 
