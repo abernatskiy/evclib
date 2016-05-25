@@ -1,0 +1,164 @@
+/* Template for the evaluation queue class
+
+   Upon instantiaition, genotypes to evaluate are read from the input file
+   (separated by newlines). For each genotype, a Phenotype object is
+   constructed and added to the queue.
+   The user is then expected to evaluate each of these objects using
+   pointers returned by getNextPhenotypePtr(). Evaluations are expected to
+   be stored at "eval" member variable of the Phenotype class.
+   When all the genotypes have been evaluated, getNextPhenotypePtr() call,
+   before performing its normal functions, also writes the evaluations
+   into the output file and reads the input file once again.
+
+   TL;DR Just make an instance using a pair of pipes as IO files and
+   evaluate away with getNextPhenotypePtr().
+
+   Template for class Phenotype:
+
+   class Phenotype
+   {
+   public:
+     int ID;
+     double eval;
+     Phenotype(std::string);
+     std::string getDesc();
+
+     //// Phenotype is required to be rule of zero-three compliant:
+     //// use both functions below or none of them.
+     // Phenotype(const Phenotype& other);
+     // ~Phenotype();
+   }
+
+   Defining QUEUE_VERBOSE_EVALUATION enables stdout reports before each
+   evaluation.
+*/
+
+#ifndef GTOP_EVAL_QUEUE_H
+#define GTOP_EVAL_QUEUE_H
+
+#include <string>
+#include <vector>
+
+#ifndef MAX_GENOME_LENGTH
+#define MAX_GENOME_LENGTH 10000
+#endif // MAX_GENOME_LENGTH
+
+#ifndef MAX_QUEUE_LENGTH
+#define MAX_QUEUE_LENGTH 500
+#endif // MAX_QUEUE_LENGTH
+
+#ifndef EVALUATION_PRECISION
+#define EVALUATION_PRECISION 10 // digits after a decimal in the significand/mantissa
+#endif // EVALUATION_PRECISION
+
+template<class Phenotype>
+class EvalQueue
+{
+private:
+	std::string inputFileName;
+	std::string outputFileName;
+	std::vector<Phenotype> queue;
+	int curPos;
+	void readInput();
+	void writeOutput();
+public:
+	EvalQueue(std::string inputFN, std::string outputFN);
+	Phenotype* getNextPhenotypePtr();
+	void print();
+};
+
+// DEFINITIONS
+
+#include <fstream>
+#include <iostream>
+#include <cstdlib>
+#include <iomanip>
+
+template<class Phenotype>
+EvalQueue<Phenotype>::EvalQueue(std::string inputFN, std::string outputFN)
+{
+	inputFileName = inputFN;
+	outputFileName = outputFN;
+	readInput();
+}
+
+template<class Phenotype>
+void EvalQueue<Phenotype>::readInput()
+{
+	std::ifstream inputFile;
+	inputFile.open(inputFileName);
+	if(!inputFile.is_open())
+	{
+		std::cout << "Cannot open the input\n";
+		exit(EXIT_FAILURE);
+	}
+
+	std::string curLine;
+	int counter = 0;
+
+	while(std::getline(inputFile, curLine))
+	{
+#ifdef MAX_QUEUE_LENGHT
+		if(counter == MAX_QUEUE_LENGTH)
+		{
+			std::cout << "Queue too big, exiting\n";
+			exit(EXIT_FAILURE);
+		}
+#endif // MAX_QUEUE_LENGTH
+		queue.emplace_back(curLine);
+		counter++;
+	}
+	inputFile.close();
+
+	curPos = 0;
+}
+
+template<class Phenotype>
+void EvalQueue<Phenotype>::writeOutput()
+{
+	std::ofstream outputFile;
+	outputFile.open(outputFileName);
+	if(!outputFile.is_open())
+	{
+		std::cout<< "Cannot open the output\n";
+		exit(EXIT_FAILURE);
+	}
+
+	for(auto it=queue.begin(); it!=queue.end(); it++)
+		outputFile << it->ID << " " << std::scientific << std::setprecision(EVALUATION_PRECISION) << it->eval << std::endl;
+	outputFile.close();
+
+//	std::cout << "cylindersEvasion: wrote evaluations for a queue of " << queue.size() << " individuals\n";
+
+	queue.clear();
+}
+
+template<class Phenotype>
+Phenotype* EvalQueue<Phenotype>::getNextPhenotypePtr()
+{
+	if(curPos == queue.size())
+	{
+		writeOutput();
+		readInput();
+	}
+
+	auto it = queue.begin() + curPos;
+	Phenotype* ptr = &(*it);
+
+#ifdef QUEUE_VERBOSE_EVALUATION
+	std::cout << "Evaluating " << it->getDesc() << std::endl << std::flush;
+#endif // QUEUE_VERBOSE_EVALUATION
+
+	curPos++;
+	return ptr;
+}
+
+template<class Phenotype>
+void EvalQueue<Phenotype>::print()
+{
+	std::cout << "Queue is at " << curPos << ". Total size is " << queue.size() << std::endl;
+	for(auto it=queue.begin(); it!=queue.end(); it++)
+		std::cout << it->getDesc() << std::endl;
+}
+
+#endif // GTOP_EVAL_QUEUE_H
