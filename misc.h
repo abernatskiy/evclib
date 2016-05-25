@@ -10,16 +10,6 @@
 
 #define WIDTH_OF_FILE_NAME 300
 
-int countSpaces(const char* str)
-{
-	int len = strlen(str);
-	int counter = 0;
-	for(int i=0; i<len; i++)
-		if(str[i] == ' ')
-			counter++;
-	return counter;
-}
-
 template<class RealNumber> RealNumber unitize(RealNumber in)
 {
 	// constrain to [0.,1.]
@@ -29,7 +19,17 @@ template<class RealNumber> RealNumber unitize(RealNumber in)
 	return (RealNumber)result;
 }
 
-int ipow(int base, int exp)
+inline int countSpaces(const char* str)
+{
+	int len = strlen(str);
+	int counter = 0;
+	for(int i=0; i<len; i++)
+		if(str[i] == ' ')
+			counter++;
+	return counter;
+}
+
+inline int ipow(int base, int exp)
 {
 	// integer power - strangely absent in std
 	int result = 1;
@@ -43,7 +43,7 @@ int ipow(int base, int exp)
 	return result;
 }
 
-int binomialCoeff(int n, int r)
+inline int binomialCoeff(int n, int r)
 {
 	// perhaps there is a better way to do this
 	double ans = 1.0;
