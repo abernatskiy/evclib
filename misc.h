@@ -1,6 +1,8 @@
 #ifndef MISC_H
 #define MISC_H
 
+#include <limits.h>
+
 #define WIDTH_OF_FILE_NAME 300
 
 int countSpaces(const char* str)
@@ -13,7 +15,7 @@ int countSpaces(const char* str)
 	return counter;
 }
 
-template<class RealNumber> Number unitize(RealNumber in)
+template<class RealNumber> RealNumber unitize(RealNumber in)
 {
 	// constrain to [0.,1.]
 	RealNumber result = in;
