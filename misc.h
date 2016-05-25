@@ -40,7 +40,7 @@ int ipow(int base, int exp)
 	return result;
 }
 
-int binomialCoeff(int n, int k)
+int binomialCoeff(int n, int r)
 {
 	// perhaps there is a better way to do this
 	double ans = 1.0;
