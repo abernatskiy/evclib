@@ -2,6 +2,8 @@
 #define MISC_H
 
 #include <limits.h>
+#include <string.h>
+
 #include <iostream>
 #include <cstdlib>
 
