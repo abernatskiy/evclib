@@ -171,7 +171,7 @@ void NeuralNetwork::resetHidden()
 
 MotorPattern NeuralNetwork::output(const Percept& input)
 {
-	static btScalar newHidden[ANN_HIDDEN_RECURSIVE_HIDDEN_NODES];
+	static ANNNodeStateType newHidden[ANN_HIDDEN_RECURSIVE_HIDDEN_NODES];
 	for(int j=0; j<ANN_HIDDEN_RECURSIVE_HIDDEN_NODES; j++)
 	{
 		newHidden[j] = 0.f;

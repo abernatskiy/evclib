@@ -10,8 +10,6 @@
 //#include "ANNDirect.h"
 //#include "../misc.h"
 
-#define btScalar float
-
 int main(int argc, char** argv)
 {
 	NeuralNetwork nn0("42 1 0.5 -0.5 1 1 1 1 1");
@@ -30,7 +28,7 @@ int main(int argc, char** argv)
 	}
 	std::cout << std::endl;
 
-	std::vector<btScalar> compVals{1.5, 1.0, 0.5, -0.5};
+	std::vector<ANNNodeStateType> compVals{1.5, 1.0, 0.5, -0.5};
 	std::cout << "Comparison values: " << std::endl;
 	for(auto val : compVals)
 		std::cout << " sigmoid(" << val << ") = " << sigmoid(val) << std::endl;

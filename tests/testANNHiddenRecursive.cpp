@@ -43,7 +43,7 @@ int main(int argc, char** argv)
 	NeuralNetwork nn2("44 -1 0 0 1 0.5 0 0 0.5 -1 1 1 0 1 0 0 1");
 	testRecurrentNetwork(nn2, testInputs[0]);
 
-	std::vector<btScalar> compVals{1.5, 1.0, 0.5, 0.0, -0.5};
+	std::vector<ANNNodeStateType> compVals{1.5, 1.0, 0.5, 0.0, -0.5};
 	std::cout << "Comparison values: " << std::endl;
 	for(auto val : compVals)
 		std::cout << " sigmoid(sigmoid(" << val << ")) = " << sigmoid(sigmoid(val)) << std::endl;

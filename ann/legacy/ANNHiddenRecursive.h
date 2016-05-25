@@ -23,9 +23,11 @@
 #define ANNNodeStateType float
 #endif // ANNNodeStateType
 
-#ifndef ANN_HIDDEN_RECURSIVE_SIGMOID
+#ifdef TANH_TRANSFER
+#define ANN_HIDDEN_RECURSIVE_SIGMOID(X) tanHyperbolic<ANNNodeStateType>(X) // from ../transferFunctions.h
+#else // TANH_TRANSFER
 #define ANN_HIDDEN_RECURSIVE_SIGMOID(X) logistic<ANNNodeStateType>(X) // from ../transferFunctions.h
-#endif // ANN_HIDDEN_RECURSIVE_SIGMOID
+#endif // TANH_TRANSFER
 
 typedef std::array<ANNNodeStateType,ANN_HIDDEN_RECURSIVE_INPUT_NODES> Percept;
 typedef std::array<ANNNodeStateType,ANN_HIDDEN_RECURSIVE_OUTPUT_NODES> MotorPattern;
