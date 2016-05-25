@@ -4,7 +4,6 @@
 
 #include <string.h>
 
-#include "../misc.h" // sigmoid() is there
 #include "ANNDirect.h"
 
 std::string str(const Percept& perc)

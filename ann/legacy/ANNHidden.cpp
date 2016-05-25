@@ -1,5 +1,4 @@
 #include <string.h>
-#include "misc.h" // sigmoid() is there
 
 #include "ANNHidden.h"
 
