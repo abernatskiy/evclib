@@ -5,10 +5,10 @@
 #include <iostream>
 #include <vector>
 
-#include "ANNHiddenRecursive.h"
-#include "../misc.h"
+// TODO: broken
 
-//#include "GlutDemoApplication.h"
+//#include "ANNHiddenRecursive.h"
+//#include "../misc.h"
 
 void testRecurrentNetwork(NeuralNetwork& nn1, const Percept& testInput)
 {

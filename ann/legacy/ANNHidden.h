@@ -1,5 +1,3 @@
-#include "GlutDemoApplication.h"
-
 class NeuralNetwork
 {
 	private:

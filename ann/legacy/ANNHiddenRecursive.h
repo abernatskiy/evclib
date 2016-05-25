@@ -3,9 +3,7 @@
 
 #include <string>
 #include <array>
-#include "../misc.h" // sigmoid() is defined there
-
-#include "GlutDemoApplication.h"
+#include "../transferFunctions.h"
 
 #ifndef ANN_HIDDEN_RECURSIVE_INPUT_NODES
 #define ANN_HIDDEN_RECURSIVE_INPUT_NODES 4
@@ -19,15 +17,15 @@
 #define ANN_HIDDEN_RECURSIVE_OUTPUT_NODES 2
 #endif // ANN_HIDDEN_RECURSIVE_OUTPUT_NODES
 
-#ifndef ANN_HIDDEN_RECURSIVE_SIGMOID
-#define ANN_HIDDEN_RECURSIVE_SIGMOID(X) sigmoid(X) // I'm using the func from misc.h by default
-#endif // ANN_SIGMOID
-
 // The type to be used for ANN's nodes, including outputs and inputs
 // It must be convertible to from double (i.e., understand assignments like =0.0)
 #ifndef ANNNodeStateType
-#define ANNNodeStateType btScalar
+#define ANNNodeStateType float
 #endif // ANNNodeStateType
+
+#ifndef ANN_HIDDEN_RECURSIVE_SIGMOID
+#define ANN_HIDDEN_RECURSIVE_SIGMOID(X) logistic<ANNNodeStateType>(X) // from ../transferFunctions.h
+#endif // ANN_SIGMOID
 
 typedef std::array<ANNNodeStateType,ANN_HIDDEN_RECURSIVE_INPUT_NODES> Percept;
 typedef std::array<ANNNodeStateType,ANN_HIDDEN_RECURSIVE_OUTPUT_NODES> MotorPattern;

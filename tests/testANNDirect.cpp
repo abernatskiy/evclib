@@ -5,10 +5,12 @@
 #include <iostream>
 #include <vector>
 
-#include "ANNDirect.h"
-#include "../misc.h"
+// TODO: broken
 
-#include "GlutDemoApplication.h"
+//#include "ANNDirect.h"
+//#include "../misc.h"
+
+#define btScalar float
 
 int main(int argc, char** argv)
 {
