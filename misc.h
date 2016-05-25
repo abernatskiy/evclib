@@ -2,6 +2,8 @@
 #define MISC_H
 
 #include <limits.h>
+#include <iostream>
+#include <cstdlib>
 
 #define WIDTH_OF_FILE_NAME 300
 
