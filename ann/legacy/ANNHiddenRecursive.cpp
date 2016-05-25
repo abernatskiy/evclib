@@ -2,6 +2,7 @@
 #include <sstream>
 
 #include "ANNHiddenRecursive.h"
+#include "../../misc.h"
 
 std::string str(const Percept& perc)
 {
@@ -132,7 +133,7 @@ void NeuralNetwork::printHidden() const
 std::string NeuralNetwork::getDesc() const
 {
 	char* buffer;
-	const int buflen = WIDTH_OF_FLOAT_STRING_REPRESENTATION;
+	const int buflen = 15;
 	char tmpstr[buflen];
 	sprintf(tmpstr, "%d ", ID);
 	strncpy(buffer, tmpstr, buflen);
