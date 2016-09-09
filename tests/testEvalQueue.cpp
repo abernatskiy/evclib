@@ -1,30 +1,28 @@
+
 #include <iostream>
+#include <string>
 
 #define QUEUE_VEROBOSE_EVALUATION
 
-#include "evalQueue.h"
+#include "../evalQueue.h"
 
-class testPhenotype
+class TestPhenotype
 {
 public:
-	std::string penotype;
-	int ID;
+	std::string phenotype;
+	double alpha;
+
+	int id;
 	double eval;
 
-	testPhenotype(std::string s)
-	{
-		penotype = s + " phenotype";
-	};
-
-	std::string getDesc()
-	{
-		return "desc" + penotype;
-	};
+	TestPhenotype(double a) : id(0), alpha(a) {};
+	void getParameters(std::string s) {phenotype = s + " phenotype";};
+	std::string getDesc() {return "desc: " + phenotype + " eval: " + std::to_string(eval) + " id: " + std::to_string(id);};
 };
 
 int main(int argc, char** argv)
 {
-	auto eq = EvalQueue<testPhenotype>("/tmp/indiv", "/tmp/evals");
+	auto eq = EvalQueue<TestPhenotype,double>("/tmp/indiv", "/tmp/evals", 42);
 	for(int i=0; i<20; i++)
 	{
 		std::cout << "Current queue:" << std::endl;
@@ -32,7 +30,7 @@ int main(int argc, char** argv)
 		std::cout << std::endl << std::endl;
 
 		auto phPtr = eq.getNextPhenotypePtr();
-		phPtr->eval = (double) phPtr->penotype.size();
+		phPtr->eval = (double) phPtr->phenotype.size();
 	}
 	std::cout << "That's all" << std::cout;
 	return 0;

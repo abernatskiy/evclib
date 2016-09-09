@@ -1,5 +1,7 @@
-#ifndef ENVIRONMENT_BY_NUMBER
-#define ENVIRONMENT_BY_NUMBER
+// FIXME: Won't work with new interface
+
+#ifndef EVCLIB_ENVIRONMENT_BY_NUMBER_H
+#define EVCLIB_ENVIRONMENT_BY_NUMBER_H
 
 #include <string>
 #include <sstream>
@@ -55,4 +57,4 @@ std::string EnvironmentByNumber::getDesc()
 	return ss.str();
 }
 
-#endif // ENVIRONMENT_BY_NUMBER
+#endif // EVCLIB_ENVIRONMENT_BY_NUMBER_H

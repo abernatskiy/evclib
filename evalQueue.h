@@ -22,7 +22,7 @@
      int id;
      double eval;
      Phenotype(const Hyperparameters&);
-     void getParamtersFromString(std::string);
+     void getParamters(std::string);
      std::string getDesc();
 
      //// Phenotype is required to be rule of zero-three compliant:
@@ -35,8 +35,8 @@
    evaluation.
 */
 
-#ifndef GTOP_EVAL_QUEUE_H
-#define GTOP_EVAL_QUEUE_H
+#ifndef EVCLIB_EVAL_QUEUE_H
+#define EVCLIB_EVAL_QUEUE_H
 
 #include <string>
 #include <vector>
@@ -78,7 +78,7 @@ public:
 #include <iomanip>
 
 template<class Phenotype, class Hyperparameters>
-EvalQueue<Phenotype,Hyperparamters>::EvalQueue(std::string inputFN, std::string outputFN, const Hyperparameters& hp)
+EvalQueue<Phenotype,Hyperparameters>::EvalQueue(std::string inputFN, std::string outputFN, const Hyperparameters& hp)
 {
 	inputFileName = inputFN;
 	outputFileName = outputFN;
@@ -111,7 +111,7 @@ void EvalQueue<Phenotype,Hyperparameters>::readInput()
 #endif // MAX_QUEUE_LENGTH
 		queue.emplace_back(hyperparameters);
 		auto itLastElem = std::prev(queue.end());
-		itLastElem->getParamtersFromString(curLine);
+		itLastElem->getParameters(curLine);
 		counter++;
 	}
 	inputFile.close();
@@ -166,4 +166,4 @@ void EvalQueue<Phenotype,Hyperparameters>::print()
 		std::cout << it->getDesc() << std::endl;
 }
 
-#endif // GTOP_EVAL_QUEUE_H
+#endif // EVCLIB_EVAL_QUEUE_H

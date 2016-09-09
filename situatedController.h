@@ -1,3 +1,5 @@
+// FIXME: Won't work with the new interfaces
+
 /* Phenotype class consisting of an Environment and a
    Controller. Compatible with EvalQueue template.
 
@@ -35,8 +37,8 @@
    process empty genotypes (with zero fields, N=0).
 */
 
-#ifndef GTOP_SITUATED_CONTROLLER_H
-#define GTOP_SITUATED_CONTROLLER_H
+#ifndef EVCLIB_SITUATED_CONTROLLER_H
+#define EVCLIB_SITUATED_CONTROLLER_H
 
 #include <string>
 #include <sstream>
@@ -159,4 +161,4 @@ std::string SituatedController<Environment,Controller>::getDesc()
 	return situatedControllerStream.str();
 }
 
-#endif // GTOP_SITUATED_CONTROLLER_H
+#endif // EVCLIB_SITUATED_CONTROLLER_H

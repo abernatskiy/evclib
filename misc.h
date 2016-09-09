@@ -1,5 +1,5 @@
-#ifndef MISC_H
-#define MISC_H
+#ifndef EVCLIB_MISC_H
+#define EVCLIB_MISC_H
 
 #include <limits.h>
 #include <string.h>
@@ -59,4 +59,4 @@ inline int binomialCoeff(int n, int r)
 	return (int)ans;
 }
 
-#endif // MISC_H
+#endif // EVCLIB_MISC_H
