@@ -15,12 +15,14 @@
 
    Template for class Phenotype:
 
+   template<class Hyperparams>
    class Phenotype
    {
    public:
-     int ID;
+     int id;
      double eval;
-     Phenotype(std::string);
+     Phenotype(const Hyperparameters&);
+     void getParamtersFromString(std::string);
      std::string getDesc();
 
      //// Phenotype is required to be rule of zero-three compliant:
@@ -51,7 +53,7 @@
 #define EVALUATION_PRECISION 10 // digits after a decimal in the significand/mantissa
 #endif // EVALUATION_PRECISION
 
-template<class Phenotype>
+template<class Phenotype, class Hyperparameters>
 class EvalQueue
 {
 private:
@@ -61,8 +63,9 @@ private:
 	int curPos;
 	void readInput();
 	void writeOutput();
+	Hyperparameters hyperparameters;
 public:
-	EvalQueue(std::string inputFN, std::string outputFN);
+	EvalQueue(std::string inputFN, std::string outputFN, const Hyperparameters& hp);
 	Phenotype* getNextPhenotypePtr();
 	void print();
 };
@@ -74,16 +77,17 @@ public:
 #include <cstdlib>
 #include <iomanip>
 
-template<class Phenotype>
-EvalQueue<Phenotype>::EvalQueue(std::string inputFN, std::string outputFN)
+template<class Phenotype, class Hyperparameters>
+EvalQueue<Phenotype,Hyperparamters>::EvalQueue(std::string inputFN, std::string outputFN, const Hyperparameters& hp)
 {
 	inputFileName = inputFN;
 	outputFileName = outputFN;
 	readInput();
+	hyperparameters = hp;
 }
 
-template<class Phenotype>
-void EvalQueue<Phenotype>::readInput()
+template<class Phenotype, class Hyperparameters>
+void EvalQueue<Phenotype,Hyperparameters>::readInput()
 {
 	std::ifstream inputFile;
 	inputFile.open(inputFileName);
@@ -105,7 +109,9 @@ void EvalQueue<Phenotype>::readInput()
 			exit(EXIT_FAILURE);
 		}
 #endif // MAX_QUEUE_LENGTH
-		queue.emplace_back(curLine);
+		queue.emplace_back(hyperparameters);
+		auto itLastElem = std::prev(queue.end());
+		itLastElem->getParamtersFromString(curLine);
 		counter++;
 	}
 	inputFile.close();
@@ -113,8 +119,8 @@ void EvalQueue<Phenotype>::readInput()
 	curPos = 0;
 }
 
-template<class Phenotype>
-void EvalQueue<Phenotype>::writeOutput()
+template<class Phenotype, class Hyperparameters>
+void EvalQueue<Phenotype,Hyperparameters>::writeOutput()
 {
 	std::ofstream outputFile;
 	outputFile.open(outputFileName);
@@ -125,16 +131,15 @@ void EvalQueue<Phenotype>::writeOutput()
 	}
 
 	for(auto it=queue.begin(); it!=queue.end(); it++)
-		outputFile << it->ID << " " << std::scientific << std::setprecision(EVALUATION_PRECISION) << it->eval << std::endl;
+		outputFile << it->id << " " << std::scientific << std::setprecision(EVALUATION_PRECISION) << it->eval << std::endl;
 	outputFile.close();
 
 //	std::cout << "cylindersEvasion: wrote evaluations for a queue of " << queue.size() << " individuals\n";
-
 	queue.clear();
 }
 
-template<class Phenotype>
-Phenotype* EvalQueue<Phenotype>::getNextPhenotypePtr()
+template<class Phenotype, class Hyperparameters>
+Phenotype* EvalQueue<Phenotype,Hyperparameters>::getNextPhenotypePtr()
 {
 	if(curPos == queue.size())
 	{
@@ -153,8 +158,8 @@ Phenotype* EvalQueue<Phenotype>::getNextPhenotypePtr()
 	return ptr;
 }
 
-template<class Phenotype>
-void EvalQueue<Phenotype>::print()
+template<class Phenotype, class Hyperparameters>
+void EvalQueue<Phenotype,Hyperparameters>::print()
 {
 	std::cout << "Queue is at " << curPos << ". Total size is " << queue.size() << std::endl;
 	for(auto it=queue.begin(); it!=queue.end(); it++)
