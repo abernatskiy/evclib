@@ -3,11 +3,11 @@
 #include <iostream>
 #include <cstdlib>
 
-#include "environmentByNumber.h"
+#include "../environmentByNumber.h"
 
 //#define ENVIRONMENT_FIELDS 0
 #define ENVIRONMENT_FIELDS 1
-#include "situatedController.h"
+#include "../situatedController.h"
 
 #ifndef FIELD_SEPARATOR
 #define FIELD_SEPARATOR ' '

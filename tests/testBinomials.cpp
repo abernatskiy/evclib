@@ -1,5 +1,5 @@
 #include <iostream>
-#include "evclib/misc.h"
+#include "../misc.h"
 
 int main(int argc, char** argv)
 {

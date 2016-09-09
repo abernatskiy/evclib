@@ -4,7 +4,7 @@
 #include <iostream>
 #include <tuple>
 
-#include "parseCLI.h"
+#include "../parseCLI.h"
 
 int main(int argc, char** argv)
 {
