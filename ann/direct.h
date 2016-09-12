@@ -18,8 +18,9 @@ typedef struct ANNDirectHyperparameters
 	std::function<ANNNodeState(ANNNodeState)> transferFunction;
 } ANNDirectHyperparameters;
 
-typedef std::vector<ANNNodeStateType> Percept;
-typedef std::vector<ANNNodeStateType> MotorPattern;
+typedef std::vector<ANNNodeState> Percept;
+typedef std::vector<ANNNodeState> MotorPattern;
+typedef std::vector<std::vector<ANNNodeState>> WeightsMatrix; // same type is used for node state and weights
 
 std::string str(const Percept& perc);
 std::string str(const MotorPattern& motPat);
@@ -27,12 +28,12 @@ std::string str(const MotorPattern& motPat);
 class ANNDirect
 {
 	private:
-
-	ANNNodeState inputToOutput[ANN_DIRECT_INPUT_NODES][ANN_DIRECT_OUTPUT_NODES]; // same type is used for node state and weights
+	ANNDirectHyperparameters hyperparameters;
+	WeightsMatrix inputToOutput;
 
 	public:
 
-	int ID;
+	int id;
 	double eval;
 
 	ANNDirect(const ANNDirectHyperparameters&);

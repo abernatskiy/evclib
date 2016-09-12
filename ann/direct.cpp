@@ -4,8 +4,8 @@
 
 #include <string.h>
 
-#include "ANNDirect.h"
-#include "../../misc.h"
+#include "direct.h"
+#include "../misc.h"
 
 std::string str(const Percept& perc)
 {
@@ -27,21 +27,24 @@ std::string str(const MotorPattern& motPat)
 	return os.str();
 }
 
-NeuralNetwork::NeuralNetwork(std::string genotype)
+ANNDirect::ANNDirect(const ANNDirectHyperparameters& hyp)
 {
-
-	eval = -1.f;
+	hyperparameters = hyp;
+	inputToOutput.resize(hyperparameters.inputNodes);
+	for(auto it=inputToOutput.begin(); it!=inputToOutput.end(); it++)
+		it->resize(hyperparameters.outputNodes);
 }
 
-void NeuralNetwork::getParameters(std::string genotype)
+void ANNDirect::getParameters(std::string genotype)
 {
 	const char* netdesc = genotype.c_str();
 
 	// validating the string
-	int dim = countSpaces(netdesc);
-	if(dim != ANN_DIRECT_INPUT_NODES*ANN_DIRECT_OUTPUT_NODES)
+	const int numWeights = hyperparameters.inputNodes*hyperparameters.outputNodes;
+	const int dim = countSpaces(netdesc);
+	if(dim != numWeighs)
 	{
-		std::cout << "Bad neural network string - must have exactly " << ANN_DIRECT_INPUT_NODES*ANN_DIRECT_OUTPUT_NODES << " weights (it has " << dim << ")\n";
+		std::cout << "Bad neural network string - must have exactly " << numWeights << " weights (it has " << dim << ")\n";
 		exit(1);
 	}
 
@@ -51,40 +54,18 @@ void NeuralNetwork::getParameters(std::string genotype)
 	strncpy(buf, netdesc, len+2);
 
 	char* pch = strtok(buf, " ");
-	sscanf(pch, "%d", &ID);
-	for(int i=0; i<ANN_DIRECT_INPUT_NODES; i++)
-		for(int j=0; j<ANN_DIRECT_OUTPUT_NODES; j++)
+	sscanf(pch, "%d", &id); // assigning the ID
+	for(int i=0; i<hyperparameters.inputNodes; i++)
+		for(int j=0; j<hyperparameters.outputNodes; j++)
 		{
 			pch = strtok(NULL, " ");
-			sscanf(pch, "%f", &inputToOutput[i][j]);
+			sscanf(pch, "%f", &inputToOutput[i][j]); // assigning the weights
 		}
+
+	eval = -1.0; // customarily assigning the evaluation to -1
 }
 
-void NeuralNetwork::print() const
-{
-	printf("ID=%d\n\n", ID);
-
-	for(int i=0; i<ANN_DIRECT_INPUT_NODES; i++)
-	{
-		for(int j=0; j<ANN_DIRECT_OUTPUT_NODES; j++)
-			printf("%2.4f ", inputToOutput[i][j]);
-		printf("\n");
-	}
-	printf("\n");
-}
-
-std::string NeuralNetwork::getDesc() const
-{
-	std::ostringstream ss;
-	ss << ID;
-	for(int i=0; i<ANN_DIRECT_INPUT_NODES; i++)
-		for(int j=0; j<ANN_DIRECT_OUTPUT_NODES; j++)
-			ss << " " << inputToOutput[i][j];
-
-	return ss.str();
-}
-
-MotorPattern NeuralNetwork::output(const Percept& input) const
+MotorPattern ANNDirect::output(const Percept& input) const
 {
 //	std::cout << "From network ";
 //	print();
@@ -93,13 +74,12 @@ MotorPattern NeuralNetwork::output(const Percept& input) const
 //		std::cout << " " << sensVal;
 //	std::cout << std::endl;
 
-	MotorPattern output;
-	output.fill(0.f);
-	for(int i=0; i<ANN_DIRECT_OUTPUT_NODES; i++)
+	MotorPattern output(hyperparameters.outputNodes, 0.0);
+	for(int i=0; i<hyperparameters.outputNodes; i++)
 	{
-		for(int j=0; j<ANN_DIRECT_INPUT_NODES; j++)
+		for(int j=0; j<hyperparameters.inputNodes; j++)
 			output[i] += inputToOutput[j][i]*input[j];
-		output[i] = ANN_DIRECT_SIGMOID(output[i]);
+		output[i] = hyperparameters.transferFunction(output[i]);
 	}
 
 //	std::cout << "Returning output";
@@ -108,4 +88,26 @@ MotorPattern NeuralNetwork::output(const Percept& input) const
 //	std::cout << std::endl;
 
 	return output;
+}
+
+void ANNDirect::print() const
+{
+	printf("ID=%d\n\n", id);
+	for(int i=0; i<hyperparameters.inputNodes; i++)
+	{
+		for(int j=0; j<hyperparameters.outputNodes; j++)
+			printf("%2.4f ", inputToOutput[i][j]);
+		printf("\n");
+	}
+	printf("\n");
+}
+
+std::string ANNDirect::getDesc() const
+{
+	std::ostringstream ss;
+	ss << id;
+	for(int i=0; i<hyperparameters.inputNodes; i++)
+		for(int j=0; j<hyperparameters.outputNodes; j++)
+			ss << " " << inputToOutput[i][j];
+	return ss.str();
 }
