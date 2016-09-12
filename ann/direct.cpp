@@ -17,16 +17,6 @@ std::string str(const Percept& perc)
 	return os.str();
 }
 
-std::string str(const MotorPattern& motPat)
-{
-	std::ostringstream os;
-	os << "{";
-	for(auto s : motPat)
-		os << s << ",";
-	os << "}";
-	return os.str();
-}
-
 ANNDirect::ANNDirect(const ANNDirectHyperparameters& hyp)
 {
 	hyperparameters = hyp;
@@ -42,7 +32,7 @@ void ANNDirect::getParameters(std::string genotype)
 	// validating the string
 	const int numWeights = hyperparameters.inputNodes*hyperparameters.outputNodes;
 	const int dim = countSpaces(netdesc);
-	if(dim != numWeighs)
+	if(dim != numWeights)
 	{
 		std::cout << "Bad neural network string - must have exactly " << numWeights << " weights (it has " << dim << ")\n";
 		exit(1);
@@ -55,11 +45,13 @@ void ANNDirect::getParameters(std::string genotype)
 
 	char* pch = strtok(buf, " ");
 	sscanf(pch, "%d", &id); // assigning the ID
+	ANNNodeState weightBuffer;
 	for(int i=0; i<hyperparameters.inputNodes; i++)
 		for(int j=0; j<hyperparameters.outputNodes; j++)
 		{
 			pch = strtok(NULL, " ");
-			sscanf(pch, "%f", &inputToOutput[i][j]); // assigning the weights
+			sscanf(pch, "%lf", &weightBuffer); // assigning the weights
+			inputToOutput[i][j] = weightBuffer;
 		}
 
 	eval = -1.0; // customarily assigning the evaluation to -1

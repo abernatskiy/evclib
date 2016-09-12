@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include <function>
+#include <functional>
 
 // The type to be used for ANN's nodes, including outputs and inputs
 // It must be convertible to from double (i.e., understand assignments like =0.0)
@@ -23,7 +23,7 @@ typedef std::vector<ANNNodeState> MotorPattern;
 typedef std::vector<std::vector<ANNNodeState>> WeightsMatrix; // same type is used for node state and weights
 
 std::string str(const Percept& perc);
-std::string str(const MotorPattern& motPat);
+//std::string str(const MotorPattern& motPat);
 
 class ANNDirect
 {
