@@ -34,7 +34,7 @@ void ANNDirect::getParameters(std::string genotype)
 	const int dim = countSpaces(netdesc);
 	if(dim != numWeights)
 	{
-		std::cout << "Bad neural network string - must have exactly " << numWeights << " weights (it has " << dim << ")\n";
+		std::cout << "Bad neural network string " << genotype << ". It must have exactly " << numWeights << " weights (it has " << dim << ")\n";
 		exit(1);
 	}
 
