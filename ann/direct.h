@@ -22,8 +22,7 @@ typedef std::vector<ANNNodeState> Percept;
 typedef std::vector<ANNNodeState> MotorPattern;
 typedef std::vector<std::vector<ANNNodeState>> WeightsMatrix; // same type is used for node state and weights
 
-std::string str(const Percept& perc);
-//std::string str(const MotorPattern& motPat);
+std::string str(const Percept& perc); // works for MotorPatterns as well
 
 class ANNDirect
 {
@@ -42,6 +41,10 @@ class ANNDirect
 
 	void print() const;
 	std::string getDesc() const;
+
+	double inputToOutputWeight(int i, int o){return inputToOutput[i][o];};
+	int inputNodes(){return hyperparameters.inputNodes;};
+	int outputNodes(){return hyperparameters.outputNodes;};
 };
 
 #endif // EVCLIB_ANN_DIRECT_H
