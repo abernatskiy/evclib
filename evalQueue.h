@@ -93,7 +93,7 @@ void EvalQueue<Phenotype,Hyperparameters>::readInput()
 	inputFile.open(inputFileName);
 	if(!inputFile.is_open())
 	{
-		std::cout << "Cannot open the input\n";
+		std::cerr << "Cannot open the input\n";
 		exit(EXIT_FAILURE);
 	}
 
@@ -105,7 +105,7 @@ void EvalQueue<Phenotype,Hyperparameters>::readInput()
 #ifdef MAX_QUEUE_LENGHT
 		if(counter == MAX_QUEUE_LENGTH)
 		{
-			std::cout << "Queue too big, exiting\n";
+			std::cerr << "Queue too big, exiting\n";
 			exit(EXIT_FAILURE);
 		}
 #endif // MAX_QUEUE_LENGTH
@@ -126,7 +126,7 @@ void EvalQueue<Phenotype,Hyperparameters>::writeOutput()
 	outputFile.open(outputFileName);
 	if(!outputFile.is_open())
 	{
-		std::cout<< "Cannot open the output\n";
+		std::cerr << "Cannot open the output\n";
 		exit(EXIT_FAILURE);
 	}
 
