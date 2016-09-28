@@ -60,7 +60,7 @@ private:
 	std::string inputFileName;
 	std::string outputFileName;
 	std::vector<Phenotype> queue;
-	int curPos;
+	unsigned curPos;
 	void readInput();
 	void writeOutput();
 	Hyperparameters hyperparameters;
