@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include <tuple>
 
 // The type to be used for ANN's nodes, including outputs and inputs
 // It must be convertible to from double (i.e., understand assignments like =0.0)
@@ -45,6 +46,10 @@ class ANNDirect
 	double inputToOutputWeight(int i, int o){return inputToOutput[i][o];};
 	int inputNodes(){return hyperparameters.inputNodes;};
 	int outputNodes(){return hyperparameters.outputNodes;};
+
+	// low level access
+	std::pair<int,int> shape(){return std::make_pair(hyperparameters.inputNodes, hyperparamters.outputNodes);};
+	WeightsMatrix* wtsMatrix(){return &inputToOutput;};
 };
 
 #endif // EVCLIB_ANN_DIRECT_H
