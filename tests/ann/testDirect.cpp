@@ -22,10 +22,18 @@
 	 sigmoid(0.5) = 0.622459
 	 sigmoid(-0.5) = 0.377541
 
+	Testing low-level access
+	Got shape (4, 2)
+	Reading from memory pointed to by ANNDirect::weightsMatrix()...
+	1 0.5
+	-0.5 1
+	1 1
+	1 1
 */
 
 #include <iostream>
 #include <vector>
+#include <tuple>
 
 #include "../../ann/direct.h"
 #include "../../ann/transferFunctions.h"
@@ -58,5 +66,18 @@ int main(int argc, char** argv)
 	std::cout << "Comparison values: " << std::endl;
 	for(auto val : compVals)
 		std::cout << " sigmoid(" << val << ") = " << sigmoid(val) << std::endl;
+
+	std::cout << std::endl << "Testing low-level access" << std::endl;
+	int inNodes, outNodes;
+	std::tie(inNodes,outNodes) = nn0.shape();
+	std::cout << "Got shape (" << inNodes << ", " << outNodes << ")" << std::endl;
+	WeightsMatrix* wm = nn0.weightsMatrix();
+	std::cout << "Reading from memory pointed to by ANNDirect::weightsMatrix()..." << std::endl;
+	for(int i=0; i<inNodes; i++)
+	{
+		for(int j=0; j<outNodes; j++)
+			std::cout << (*wm)[i][j] << " ";
+		std::cout << std::endl;
+	}
 	return 0;
 }

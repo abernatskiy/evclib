@@ -48,8 +48,8 @@ class ANNDirect
 	int outputNodes(){return hyperparameters.outputNodes;};
 
 	// low level access
-	std::pair<int,int> shape(){return std::make_pair(hyperparameters.inputNodes, hyperparamters.outputNodes);};
-	WeightsMatrix* wtsMatrix(){return &inputToOutput;};
+	std::pair<int,int> shape(){return std::make_pair(hyperparameters.inputNodes, hyperparameters.outputNodes);};
+	WeightsMatrix* weightsMatrix(){return &inputToOutput;};
 };
 
 #endif // EVCLIB_ANN_DIRECT_H
