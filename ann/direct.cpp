@@ -17,6 +17,12 @@ std::string str(const Percept& perc)
 	return os.str();
 }
 
+std::ostream& operator<<(std::ostream& os, const ANNDirectHyperparameters& hp)
+{
+  os << "input nodes: " << hp.inputNodes << " output nodes: " << hp.outputNodes << " transfer function at zero: " << hp.transferFunction(0.);
+  return os;
+}
+
 ANNDirect::ANNDirect(const ANNDirectHyperparameters& hyp)
 {
 	hyperparameters = hyp;

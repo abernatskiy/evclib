@@ -3,6 +3,8 @@
 
 	Correct output when used with logistic transfer function:
 
+	Hyperparameters: input nodes: 4 output nodes: 2 transfer function at zero: 0.5
+
 	ID=42
 
 	1.0000 0.5000
@@ -50,6 +52,8 @@ int main(int argc, char** argv)
 	hyp.inputNodes = 4;
 	hyp.outputNodes = 2;
 	hyp.transferFunction = sigmoid;
+
+	std::cout << "Hyperparameters: " << hyp << std::endl << std::endl;
 
 	ANNDirect nn0(hyp);
 	nn0.getParameters("42 1 0.5 -0.5 1 1 1 1 1");

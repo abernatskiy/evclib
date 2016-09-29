@@ -5,6 +5,7 @@
 #include <vector>
 #include <functional>
 #include <tuple>
+#include <iostream>
 
 // The type to be used for ANN's nodes, including outputs and inputs
 // It must be convertible to from double (i.e., understand assignments like =0.0)
@@ -18,6 +19,8 @@ typedef struct ANNDirectHyperparameters
 	int outputNodes;
 	std::function<ANNNodeState(ANNNodeState)> transferFunction;
 } ANNDirectHyperparameters;
+
+std::ostream& operator<<(std::ostream& os, const ANNDirectHyperparameters& hp);
 
 typedef std::vector<ANNNodeState> Percept;
 typedef std::vector<ANNNodeState> MotorPattern;
