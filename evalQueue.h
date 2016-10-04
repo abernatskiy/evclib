@@ -78,12 +78,12 @@ public:
 #include <iomanip>
 
 template<class Phenotype, class Hyperparameters>
-EvalQueue<Phenotype,Hyperparameters>::EvalQueue(std::string inputFN, std::string outputFN, const Hyperparameters& hp)
+EvalQueue<Phenotype,Hyperparameters>::EvalQueue(std::string inputFN, std::string outputFN, const Hyperparameters& hp) :
+	inputFileName(inputFN),
+	outputFileName(outputFN),
+	hyperparameters(hp)
 {
-	inputFileName = inputFN;
-	outputFileName = outputFN;
 	readInput();
-	hyperparameters = hp;
 }
 
 template<class Phenotype, class Hyperparameters>
