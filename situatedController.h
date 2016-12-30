@@ -1,4 +1,4 @@
-// FIXME: Won't work with the new interfaces
+// FIXME: Untested with the new interfaces
 
 /* Phenotype class consisting of an Environment and a
    Controller. Compatible with EvalQueue template.
@@ -46,35 +46,44 @@
 #include <iostream>
 #include <cstdlib>
 
-#ifndef ENVIRONMENT_FIELDS
-#define ENVIRONMENT_FIELDS 0
-#endif // ENVIRONMENT_FIELDS
-
 #ifndef FIELD_SEPARATOR
 #define FIELD_SEPARATOR ' '
 #endif // FIELD_SEPARATOR
 
-template<class Environment,class Controller>
-class SituatedController
+template<class EnvironmentHyperparameters, class ControllerHyperparameters>
+class SituatedControllerHyperparameters
 {
 public:
-	Environment* env;
-	Controller* contr;
+	int environmentFields; // the rest of the genotype is assumed to define a controller
+	EnvironmentHyperparameters environmentHyperparameters;
+	ControllerHyperparameters controllerHyperparameters;
+};
 
-	int ID;
+template<class Environment, class Controller, class SituatedControllerHyperparameters>
+class SituatedController
+{
+private:
+	SituatedControllerHyperparameters hyp;
+	Environment env;
+	Controller contr;
+public:
+	int id;
 	double eval;
-
-	SituatedController(std::string);
-	SituatedController(const SituatedController& other);
-	~SituatedController();
-
+	SituatedController(const SituatedControllerHyperparameters& hp);
+	void getParameters(std::string);
 	std::string getDesc();
 };
 
 // DEFINITIONS
 
-template<class Environment,class Controller>
-SituatedController<Environment,Controller>::SituatedController(std::string fullGenotype)
+template<class Environment, class Controller, class SituatedControllerHyperparameters>
+SituatedController<Environment,Controller,SituatedControllerHyperparameters>::SituatedController(const SituatedControllerHyperparameters& hp) :
+	hyp(hp),
+	env(hp.environmentHyperparameters),
+	contr(hp.controllerHyperparameters) {}
+
+template<class Environment, class Controller, class SituatedControllerHyperparameters>
+void SituatedController<Environment,Controller,SituatedControllerHyperparameters>::getParameters(std::string fullGenotype)
 {
 	// separate the full genotype into strings for ID, environment fields anf the rest of stuff
 	std::stringstream ss(fullGenotype);
@@ -84,7 +93,7 @@ SituatedController<Environment,Controller>::SituatedController(std::string fullG
 
 	std::vector<std::string> envFields;
 	std::string field;
-	for(int i=0; i<ENVIRONMENT_FIELDS; i++)
+	for(int i=0; i<hp.environmentFields; i++)
 	{
 		std::getline(ss, field, FIELD_SEPARATOR);
 		envFields.push_back(field);
@@ -102,50 +111,34 @@ SituatedController<Environment,Controller>::SituatedController(std::string fullG
 	// 					<< "Controller desc: " << contrDesc << std::endl;
 
 	// reading the ID
-	ID = std::stoi(idStr);
+	id = std::stoi(idStr);
 
 	// customarily assigning initial evaluation to -1.0
 	eval = -1.0;
 
-	// bringing Environment's genome together and contructing the instance
+	// bringing Environment's genome together and forwarding to the Environment instance
 	std::ostringstream envGenSS;
 	envGenSS << idStr;
 	for(auto envField: envFields)
 		envGenSS << " " << envField;
-	env = new Environment(envGenSS.str());
+	env.getParameters(envGenSS.str());
 
-	// same for Controller's instance
+	// same for the Controller instance
 	std::ostringstream contrGenSS;
 	contrGenSS << idStr << FIELD_SEPARATOR << contrDesc;
-	contr = new Controller(contrGenSS.str());
+	contr.getParameters(contrGenSS.str());
 }
 
-template<class Environment,class Controller>
-SituatedController<Environment,Controller>::SituatedController(const SituatedController& other) :
-	ID(other.ID),
-	eval(other.eval)
-{
-	env = new Environment(*other.env);
-	contr = new Controller(*other.contr);
-}
-
-template<class Environment,class Controller>
-SituatedController<Environment,Controller>::~SituatedController()
-{
-	delete env;
-	delete contr;
-}
-
-template<class Environment,class Controller>
-std::string SituatedController<Environment,Controller>::getDesc()
+template<class Environment, class Controller, class SituatedControllerHyperparameters>
+std::string SituatedController<Environment,Controller,SituatedControllerHyperparameters>::getDesc()
 {
 	std::string envID, envDesc, contrID, contrDesc;
 
-	std::stringstream envStream(env->getDesc());
+	std::stringstream envStream(env.getDesc());
 	std::getline(envStream, envID, FIELD_SEPARATOR);
 	std::getline(envStream, envDesc);
 
-	std::stringstream contrStream(contr->getDesc());
+	std::stringstream contrStream(contr.getDesc());
 	std::getline(contrStream, contrID, FIELD_SEPARATOR);
 	std::getline(contrStream, contrDesc);
 

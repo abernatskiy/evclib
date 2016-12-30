@@ -22,7 +22,7 @@
      int id;
      double eval;
      Phenotype(const Hyperparameters&);
-     void getParamters(std::string);
+     void getParameters(std::string);
      std::string getDesc();
 
      //// Phenotype is required to be rule of zero-three compliant:
