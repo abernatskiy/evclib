@@ -3,7 +3,10 @@
 /* Phenotype class consisting of an Environment and a
    Controller. Compatible with EvalQueue template.
 
-   Constructs from the line of the following format:
+   Constructs from a SituatedControllerHyperparameters
+   object (see below).
+
+   Can read parameters from line of the following format:
 
    ID envf1 .. envfN contr_desc
 
@@ -11,9 +14,9 @@
 
      ID is the ID of the phenotype.
 
-     envf1 to envfN are text fields describing the
+     envf0 to envfN-1 are text fields describing the
        environment in which the controller is to be
-       evaluated. N, the number of text fields,
+       evaluated. N, the number of the text fields,
        is controlled by ENVIRONMENT_FIELDS define
        directive (default value is 0).
 
@@ -30,11 +33,12 @@
    Additionally, they must support initialization
    with strings of EVS-compatible format:
 
-     ID envf0 .. envfN for Environment
+     ID envf0 .. envfN-1 for Environment
      ID contr_descr for Controller
 
    Additionally, Environment class must be able to
-   process empty genotypes (with zero fields, N=0).
+   process empty genotypes (with zero fields)
+   if support of N=0 situation is desirable.
 */
 
 #ifndef EVCLIB_SITUATED_CONTROLLER_H
