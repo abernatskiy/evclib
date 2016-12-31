@@ -46,7 +46,7 @@ private:
 public:
 	int id;
 	double eval;
-	SituatedController(const NumericVectorHyperparameters&);
+	NumericVector(const NumericVectorHyperparameters&);
 	void getParameters(std::string);
 	std::string getDesc();
 };
@@ -57,10 +57,10 @@ template<class NumericType>
 NumericVector<NumericType>::NumericVector(const NumericVectorHyperparameters&) {}
 
 template<class NumericType>
-NumericVector<NumericType>::getParameters(std::string genotype)
+void NumericVector<NumericType>::getParameters(std::string genotype)
 {
 	// separate the full genotype into strings for ID and numeric text fields
-	std::stringstream ss(fullGenotype);
+	std::stringstream ss(genotype);
 
 	std::string textField;
 	std::getline(ss, textField, FIELD_SEPARATOR);
@@ -73,7 +73,7 @@ NumericVector<NumericType>::getParameters(std::string genotype)
 }
 
 template<class NumericType>
-std::string SituatedController<Environment,Controller,SituatedControllerHyperparameters>::getDesc()
+std::string NumericVector<NumericType>::getDesc()
 {
 	std::ostringstream ss;
 	ss << id;
