@@ -41,9 +41,9 @@ class NumericVectorHyperparameters {};
 template<typename NumericType>
 class NumericVector
 {
-private:
-	std::vector<NumericType> vals;
 public:
+	std::vector<NumericType> vals; // exposed for simplified use
+
 	int id;
 	double eval;
 	NumericVector(const NumericVectorHyperparameters&);
