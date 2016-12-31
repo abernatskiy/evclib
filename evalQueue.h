@@ -23,7 +23,7 @@
      double eval;
      Phenotype(const Hyperparameters&);
      void getParameters(std::string);
-     std::string getDesc();
+     std::string getDesc() const;
 
      //// Phenotype is required to be rule of zero-three compliant:
      //// use both functions below or none of them.

@@ -31,7 +31,7 @@ public:
 			exit(EXIT_FAILURE);
 		}
 	};
-	int getEnvNum(){return vals[0];};
+	int getEnvNum() const {return vals[0];};
 };
 
 #endif // EVCLIB_ENVIRONMENT_BY_NUMBER_H

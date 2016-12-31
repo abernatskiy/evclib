@@ -48,7 +48,7 @@ public:
 	NumericVector() {};
 	NumericVector(const NumericVectorHyperparameters&) {}; // required for compatibility with EvalQueue
 	void getParameters(std::string);
-	std::string getDesc();
+	std::string getDesc() const;
 };
 
 // DEFINITIONS
@@ -70,7 +70,7 @@ void NumericVector<NumericType>::getParameters(std::string genotype)
 }
 
 template<class NumericType>
-std::string NumericVector<NumericType>::getDesc()
+std::string NumericVector<NumericType>::getDesc() const
 {
 	std::ostringstream ss;
 	ss << id;

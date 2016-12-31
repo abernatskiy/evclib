@@ -1,5 +1,3 @@
-// FIXME: Untested with the new interfaces
-
 /* Phenotype class consisting of an Environment and a
    Controller. Compatible with EvalQueue template.
 
@@ -17,12 +15,12 @@
      envf0 to envfN-1 are text fields describing the
        environment in which the controller is to be
        evaluated. N, the number of the text fields,
-       is controlled by ENVIRONMENT_FIELDS define
-       directive (default value is 0).
+       is controlled by the environmentFields member
+       of the SituatedControllerHyperparameters class.
 
-     contr_desc is the text data (possibly consisting of
-       fields) describing the
-       controller to be evaluated.
+     contr_desc is the text data (possibly consisting
+       of fields) describing the controller to be
+       evaluated.
 
      ' ' is the field separator defined by the
        FIELD_SEPARATOR define directive.
@@ -67,15 +65,17 @@ template<class Environment, class Controller, class SituatedControllerHyperparam
 class SituatedController
 {
 private:
-	SituatedControllerHyperparameters hyp;
 	Environment env;
 	Controller contr;
+	SituatedControllerHyperparameters hyp;
 public:
 	int id;
 	double eval;
 	SituatedController(const SituatedControllerHyperparameters& hp);
 	void getParameters(std::string);
-	std::string getDesc();
+	std::string getDesc() const;
+	std::string getContrDesc() const {return contr.getDesc();};
+	std::string getEnvDesc() const {return env.getDesc();};
 };
 
 // DEFINITIONS
@@ -97,7 +97,7 @@ void SituatedController<Environment,Controller,SituatedControllerHyperparameters
 
 	std::vector<std::string> envFields;
 	std::string field;
-	for(int i=0; i<hp.environmentFields; i++)
+	for(int i=0; i<hyp.environmentFields; i++)
 	{
 		std::getline(ss, field, FIELD_SEPARATOR);
 		envFields.push_back(field);
@@ -134,7 +134,7 @@ void SituatedController<Environment,Controller,SituatedControllerHyperparameters
 }
 
 template<class Environment, class Controller, class SituatedControllerHyperparameters>
-std::string SituatedController<Environment,Controller,SituatedControllerHyperparameters>::getDesc()
+std::string SituatedController<Environment,Controller,SituatedControllerHyperparameters>::getDesc() const
 {
 	std::string envID, envDesc, contrID, contrDesc;
 
