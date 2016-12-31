@@ -45,15 +45,13 @@ public:
 
 	int id;
 	double eval;
-	NumericVector(const NumericVectorHyperparameters&);
+	NumericVector() {};
+	NumericVector(const NumericVectorHyperparameters&) {}; // required for compatibility with EvalQueue
 	void getParameters(std::string);
 	std::string getDesc();
 };
 
 // DEFINITIONS
-
-template<class NumericType>
-NumericVector<NumericType>::NumericVector(const NumericVectorHyperparameters&) {}
 
 template<class NumericType>
 void NumericVector<NumericType>::getParameters(std::string genotype)

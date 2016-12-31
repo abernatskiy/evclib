@@ -1,60 +1,37 @@
-// FIXME: Won't work with new interface
-
 #ifndef EVCLIB_ENVIRONMENT_BY_NUMBER_H
 #define EVCLIB_ENVIRONMENT_BY_NUMBER_H
 
-#include <string>
-#include <sstream>
-#include <vector>
 #include <cstdlib>
 #include <iostream>
 
-#ifndef FIELD_SEPARATOR
-#define FIELD_SEPARATOR ' '
-#endif // FIELD_SEPARATOR
+#include "numericVector.h"
 
-class EnvironmentByNumber
+typedef struct EnvironmentByNumberHyperparameters
 {
+	unsigned numEnvironments;
+} EnvironmentByNumberHyperparameters;
+
+class EnvironmentByNumber : public NumericVector<int>
+{
+private:
+	EnvironmentByNumberHyperparameters hyp;
 public:
-  int envNum;
-
-	int ID;
-	double eval;
-	EnvironmentByNumber(std::string);
-  std::string getDesc();
-};
-
-// DEFINITIONS
-
-EnvironmentByNumber::EnvironmentByNumber(std::string genome) :
-	envNum(-1), eval(-1.0)
-{
-	std::stringstream genomeStringStream(genome);
-
-	std::string idStr, valStr, restStr;
-	std::getline(genomeStringStream, idStr, FIELD_SEPARATOR);
-	std::getline(genomeStringStream, valStr, FIELD_SEPARATOR);
-	std::getline(genomeStringStream, restStr);
-
-	if(idStr.empty() || !restStr.empty())
+	EnvironmentByNumber(const EnvironmentByNumberHyperparameters& hp) : hyp(hp) {};
+	void getParameters(std::string genotype)
 	{
-		std::cout << "Wrong genotype for EnvironmentByNumber: it must contain an ID and a description of zero or one integers\n"
-							<< "Genome in question: " << genome << std::endl;
-		exit(EXIT_FAILURE);
-	}
-
-	ID = std::stoi(idStr);
-	if(!valStr.empty())
-		envNum = std::stoi(valStr);
-}
-
-std::string EnvironmentByNumber::getDesc()
-{
-	std::ostringstream ss;
-	ss << ID;
-	if(envNum!=-1)
-	 ss << FIELD_SEPARATOR << envNum;
-	return ss.str();
-}
+		NumericVector<int>::getParameters(genotype);
+		if(vals.size() != 1)
+		{
+			std::cerr << "EnvironmentByNumber class requires exactly one parameter in genotype. Got genotype " << genotype << ", in which " << vals.size() << " fields were detected\n";
+			exit(EXIT_FAILURE);
+		}
+		if(vals[0] < 0 || vals[0] >= hyp.numEnvironments)
+		{
+			std::cerr << "Environment number out of bounds for genotype " << genotype << " (must be between 0 and " << hyp.numEnvironments-1 << ")\n";
+			exit(EXIT_FAILURE);
+		}
+	};
+	int getEnvNum(){return vals[0];};
+};
 
 #endif // EVCLIB_ENVIRONMENT_BY_NUMBER_H

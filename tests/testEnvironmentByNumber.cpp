@@ -4,11 +4,17 @@
 
 int main(int argc, char** argv)
 {
-	EnvironmentByNumber e0("11");
+	EnvironmentByNumberHyperparameters hyp;
+	hyp.numEnvironments = 5;
+
+	EnvironmentByNumber e0(hyp);
+	e0.getParameters("11 3");
 	std::cout << e0.getDesc() << std::endl;
-	EnvironmentByNumber e1("12 5");
-	std::cout << e1.getDesc() << std::endl;
-//	EnvironmentByNumber e2("");
-	EnvironmentByNumber e2("13 5 6");
+
+	EnvironmentByNumber e1(hyp);
+//	e1.getParameters("12");
+//	e1.getParameters("13 4 5");
+	e1.getParameters("14 6");
+
 	return 0;
 }
