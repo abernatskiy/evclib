@@ -27,5 +27,8 @@ int main(int argc, char** argv)
 	sc0.getParameters("123 0 1 2 3");
 	printSitContInfo(sc0);
 
+	sc0.setEvaluation(9001.);
+	std::cout << sc0.getID() << " " << sc0.getEvaluation() << "\n";
+
 	return 0;
 }

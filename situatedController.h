@@ -1,4 +1,4 @@
-/* Phenotype class consisting of an Environment and a
+/* Individual class consisting of an Environment and a
    Controller. Compatible with EvalQueue template.
 
    Constructs from a SituatedControllerHyperparameters
@@ -26,10 +26,10 @@
        FIELD_SEPARATOR define directive.
 
    Controller and Environment must be
-   Phenotype-compliant classes, see the template and
-   comments at evalQueue.h starting at line 18.
-   Additionally, they must support initialization
-   with strings of EVS-compatible format:
+   BaseIndividual-compliant classes,
+   see baseIndividual.h.
+   Method getParameters(string) must be compatible with
+   the EVS string format:
 
      ID envf0 .. envfN-1 for Environment
      ID contr_descr for Controller
@@ -48,6 +48,8 @@
 #include <iostream>
 #include <cstdlib>
 
+#include "baseIndividual.h"
+
 #ifndef FIELD_SEPARATOR
 #define FIELD_SEPARATOR ' '
 #endif // FIELD_SEPARATOR
@@ -62,15 +64,13 @@ public:
 };
 
 template<class Environment, class Controller, class SituatedControllerHyperparameters>
-class SituatedController
+class SituatedController : public BaseIndividual
 {
 private:
 	Environment env;
 	Controller contr;
 	SituatedControllerHyperparameters hyp;
 public:
-	int id;
-	double eval;
 	SituatedController(const SituatedControllerHyperparameters& hp);
 	void getParameters(std::string);
 	std::string getDesc() const;
@@ -118,7 +118,7 @@ void SituatedController<Environment,Controller,SituatedControllerHyperparameters
 	id = std::stoi(idStr);
 
 	// customarily assigning initial evaluation to -1.0
-	eval = -1.0;
+	setEvaluation(-1.0);
 
 	// bringing Environment's genome together and forwarding to the Environment instance
 	std::ostringstream envGenSS;
