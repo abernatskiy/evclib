@@ -26,7 +26,7 @@ public:
 	int getID() {return id;};
 
 	virtual void getParameters(std::string) = 0;
-	virtual std::string getDesc() = 0;
+	virtual std::string getDesc() const = 0;
 };
 
 #endif // EVCLIB_BASE_INDIVIDUAL_H

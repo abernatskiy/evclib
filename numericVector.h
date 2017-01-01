@@ -31,6 +31,8 @@
 #include <vector>
 #include <iostream>
 
+#include "baseIndividual.h"
+
 #ifndef FIELD_SEPARATOR
 #define FIELD_SEPARATOR ' '
 #endif // FIELD_SEPARATOR
@@ -38,15 +40,15 @@
 class NumericVectorHyperparameters {};
 
 template<typename NumericType>
-class NumericVector
+class NumericVector : public BaseIndividual
 {
-public:
-	std::vector<NumericType> vals; // exposed for simplified use
+protected:
+	std::vector<NumericType> vals;
 
-	int id;
-	double eval;
-	NumericVector() {};
-	NumericVector(const NumericVectorHyperparameters&) {}; // required for compatibility with EvalQueue
+public:
+	NumericVector() : BaseIndividual() {};
+	NumericVector(const NumericVectorHyperparameters&) : BaseIndividual() {}; // required for compatibility with EvalQueue
+
 	void getParameters(std::string);
 	std::string getDesc() const;
 };
@@ -66,7 +68,7 @@ void NumericVector<NumericType>::getParameters(std::string genotype)
 	while(std::getline(ss, textField, FIELD_SEPARATOR) && textField.length())
 		vals.push_back(static_cast<NumericType>(std::stod(textField)));
 
-	eval = -1.0;
+	setEvaluation(-1.);
 }
 
 template<class NumericType>
