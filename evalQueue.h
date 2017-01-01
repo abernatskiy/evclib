@@ -1,11 +1,12 @@
 /* Template for the evaluation queue class
 
    Upon instantiaition, genotypes to evaluate are read from the input file
-   (separated by newlines). For each genotype, a Phenotype object is
-   constructed and added to the queue.
+   (separated by newlines). For each genotype, an Individual object is
+   constructed with a constant set of hyperparameters, their parameters
+   are read from genotype strings and they are added to the queue.
    The user is then expected to evaluate each of these objects using
    pointers returned by getNextPhenotypePtr(). Evaluations are expected to
-   be stored at "eval" member variable of the Phenotype class.
+   be stored withing the objects via setEvaluation(double) calls.
    When all the genotypes have been evaluated, getNextPhenotypePtr() call,
    before performing its normal functions, also writes the evaluations
    into the output file and reads the input file once again.
@@ -13,23 +14,8 @@
    TL;DR Just make an instance using a pair of pipes as IO files and
    evaluate away with getNextPhenotypePtr().
 
-   Template for class Phenotype:
-
-   template<class Hyperparams>
-   class Phenotype
-   {
-   public:
-     int id;
-     double eval;
-     Phenotype(const Hyperparameters&);
-     void getParameters(std::string);
-     std::string getDesc() const;
-
-     //// Phenotype is required to be rule of zero-three compliant:
-     //// use both functions below or none of them.
-     // Phenotype(const Phenotype& other);
-     // ~Phenotype();
-   }
+   Individual classes bust comply to the BaseIndividual interface
+   (see baseIndividual.h).
 
    Defining QUEUE_VERBOSE_EVALUATION enables stdout reports before each
    evaluation.

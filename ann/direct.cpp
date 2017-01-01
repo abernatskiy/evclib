@@ -60,7 +60,7 @@ void ANNDirect::getParameters(std::string genotype)
 			inputToOutput[i][j] = weightBuffer;
 		}
 
-	eval = -1.0; // customarily assigning the evaluation to -1
+	setEvaluation(-1.0); // customarily assigning the evaluation to -1
 }
 
 MotorPattern ANNDirect::output(const Percept& input) const

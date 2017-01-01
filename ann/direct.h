@@ -7,6 +7,8 @@
 #include <tuple>
 #include <iostream>
 
+#include "../baseIndividual.h"
+
 // The type to be used for ANN's nodes, including outputs and inputs
 // It must be convertible to from double (i.e., understand assignments like =0.0)
 #ifndef ANNNodeState
@@ -28,17 +30,13 @@ typedef std::vector<std::vector<ANNNodeState>> WeightsMatrix; // same type is us
 
 std::string str(const Percept& perc); // works for MotorPatterns as well
 
-class ANNDirect
+class ANNDirect : public BaseIndividual
 {
-	private:
+private:
 	ANNDirectHyperparameters hyperparameters;
 	WeightsMatrix inputToOutput;
 
-	public:
-
-	int id;
-	double eval;
-
+public:
 	ANNDirect(const ANNDirectHyperparameters&);
 	void getParameters(std::string);
 	MotorPattern output(const Percept& input) const;
