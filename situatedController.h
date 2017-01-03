@@ -68,9 +68,9 @@ class SituatedController : public BaseIndividual
 {
 private:
 	SituatedControllerHyperparameters hyp;
+public:
 	Environment env;
 	Controller contr;
-public:
 	SituatedController(const SituatedControllerHyperparameters& hp);
 	void getParameters(std::string);
 	std::string getDesc() const;
@@ -99,7 +99,7 @@ void SituatedController<Environment,Controller,SituatedControllerHyperparameters
 	std::string field;
 	for(int i=0; i<hyp.environmentFields; i++)
 	{
-		std::getline(ss, field, FIELD_SEPARATOR);
+		std::getline(ss, field, FIELD_SEPARATOR); // FIXME: check if there are enough fields
 		envFields.push_back(field);
 	}
 
