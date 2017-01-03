@@ -67,9 +67,9 @@ template<class Environment, class Controller, class SituatedControllerHyperparam
 class SituatedController : public BaseIndividual
 {
 private:
+	SituatedControllerHyperparameters hyp;
 	Environment env;
 	Controller contr;
-	SituatedControllerHyperparameters hyp;
 public:
 	SituatedController(const SituatedControllerHyperparameters& hp);
 	void getParameters(std::string);

@@ -117,7 +117,7 @@ void EvalQueue<Phenotype,Hyperparameters>::writeOutput()
 	}
 
 	for(auto it=queue.begin(); it!=queue.end(); it++)
-		outputFile << it->id << " " << std::scientific << std::setprecision(EVALUATION_PRECISION) << it->eval << std::endl;
+		outputFile << it->getID() << " " << std::scientific << std::setprecision(EVALUATION_PRECISION) << it->getEvaluation() << std::endl;
 	outputFile.close();
 
 //	std::cout << "cylindersEvasion: wrote evaluations for a queue of " << queue.size() << " individuals\n";
