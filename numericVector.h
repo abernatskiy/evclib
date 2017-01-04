@@ -42,10 +42,8 @@ class NumericVectorHyperparameters {};
 template<typename NumericType>
 class NumericVector : public BaseIndividual
 {
-protected:
-	std::vector<NumericType> vals;
-
 public:
+	std::vector<NumericType> vals; // publishing to simplify the use in unusual genotype to phenotype maps (see e.g. Arrowbot)
 	NumericVector() : BaseIndividual() {};
 	NumericVector(const NumericVectorHyperparameters&) : BaseIndividual() {}; // required for compatibility with EvalQueue
 
